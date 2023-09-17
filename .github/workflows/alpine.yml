@@ -25,6 +25,8 @@ jobs:
             libpulse
             opus
             lame-libs
+            lame
+            lame-dev
             xz
             protobuf
             cargo
