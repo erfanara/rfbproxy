@@ -46,7 +46,7 @@ jobs:
       - name: Run build inside Alpine chroot as root
         run: |
           cargo build --release
-          tar cJf ./rfbproxy.tar.xz --owner=0:0 --transform=s@target/release@usr/bin@ target/release/rfbproxy
+          tar cJf ./rfbproxy.tar.xz --transform=s@target/release@usr/bin@ target/release/rfbproxy
         shell: alpine.sh --root {0}
         
       - name: Create Release
