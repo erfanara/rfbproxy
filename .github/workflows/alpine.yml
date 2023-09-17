@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - cicd
+    tags:
+      - v*
+
+jobs:
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Setup latest Alpine Linux
+        uses: jirutka/setup-alpine@v1
+        with:
+          packages: >
+            build-base
+            libgit2-dev
+            meson
+            libpulse
+            opus
+            lame-libs
+            xz
+            cargo
+  
+      - name: Run script inside Alpine chroot as root
+        run: |
+          cat /etc/alpine-release
+        shell: alpine.sh --root {0}
+    
+      - name: Run script on the host system (Ubuntu)
+        run: |
+          cat /etc/os-release
+        shell: bash
