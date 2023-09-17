@@ -1,4 +1,4 @@
-name: Release
+name: alpine-release
 
 on:
   push:
@@ -26,7 +26,10 @@ jobs:
             opus
             lame-libs
             xz
+            protobuf
             cargo
+            rust
+      
  
       - name: Bump version and push tag
         id: bump-version
