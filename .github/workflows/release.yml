@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - cicd
     tags:
       - v*
 
@@ -11,7 +12,7 @@ jobs:
 
   release:
     # Should match the version that Polygott uses.
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -26,7 +27,7 @@ jobs:
         id: bump-version
         uses: anothrNick/github-tag-action@9aaabdb5e989894e95288328d8b17a6347217ae3
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
           WITH_V: true
           DEFAULT_BUMP: patch
           INITIAL_VERSION: 0.1.0
@@ -41,7 +42,7 @@ jobs:
         id: create-release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
         with:
           tag_name: ${{ steps.bump-version.outputs.tag }}
           release_name: ${{ steps.bump-version.outputs.tag }}
@@ -51,7 +52,7 @@ jobs:
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ./rfbproxy.tar.xz
